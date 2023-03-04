@@ -58,10 +58,11 @@ const cronInsta = new CronJob("0 */2 * * * *", async () => {
     postToInsta(url);
 });
 
-cronInsta.start();
+
 
 app.get("/", (req, res)=>{
     console.log("hello")
+    cronInsta.start();
     res.send("Hello from backend")
 })
 
