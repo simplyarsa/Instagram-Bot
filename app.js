@@ -56,7 +56,7 @@ const postToInsta = async (imageUrl) => {
 
 }
 
-const cronInsta = new CronJob("*/5 * * * * *", async () => {
+const cronInsta = new CronJob("0 */2 * * * *", async () => {
     console.log("done")
     // postToInsta(url);
 });
