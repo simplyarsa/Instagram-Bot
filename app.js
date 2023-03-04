@@ -3,12 +3,15 @@ const { IgApiClient } = require('instagram-private-api');
 const { get } = require('request-promise');
 const { Configuration, OpenAIApi } = require('openai');
 const CronJob = require("cron").CronJob;
-const express = require('express')
+const express = require('express');
+const { default: axios } = require("axios");
+// const axios=require('axios')
 
 const app = express()
 const port = process.env.PORT || 4000;
 
 let imageUrl;
+let imgCaption;
 
 const configuration = new Configuration({
     apiKey: process.env.API_KEY
@@ -31,10 +34,10 @@ const openai = new OpenAIApi(configuration)
 //     return response.data.data[0].url
 // }
 
-let url = "https://steamuserimages-a.akamaihd.net/ugc/946207409564266728/20911D7B80D93D259083DE2AB505A2D85C06F14D/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false"
+// let url = "https://steamuserimages-a.akamaihd.net/ugc/946207409564266728/20911D7B80D93D259083DE2AB505A2D85C06F14D/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false"
 
 
-const postToInsta = async (imageUrl) => {
+const postToInsta = async () => {
     try {
         console.log("Inside function", process.env.IG_USERNAME, process.env.IG_PASSWORD)
         const ig = new IgApiClient();
@@ -48,17 +51,30 @@ const postToInsta = async (imageUrl) => {
 
         await ig.publish.photo({
             file: imageBuffer,
-            caption: 'Really nice photo from the internet!',
+            caption: imgCaption,
         });
     } catch (error) {
         console.log(error)
     }
-
 }
+
+const generateImage = async () => {
+    let nasaUrl = `https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`
+    try {
+        const res = await axios.get(nasaUrl)
+        imageUrl = res.data.url
+        imgCaption = res.data.title
+        console.log(imageUrl, imgCaption)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 
 const cronInsta = new CronJob("0 */5 * * * *", async () => {
     console.log("Post to insta")
-    postToInsta(url);
+    generateImage();
+    postToInsta();
 });
 
 cronInsta.start();
@@ -67,9 +83,9 @@ app.get("/", (req, res) => {
     res.send("Hello from backend")
 })
 
-// generateImage()
-// postToInsta();
-
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 })
+
+// generateImage()
+// postToInsta()
