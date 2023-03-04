@@ -56,9 +56,9 @@ const postToInsta = async (imageUrl) => {
 
 }
 
-const cronInsta = new CronJob("0 */2 * * * *", async () => {
+const cronInsta = new CronJob("*/5 * * * * *", async () => {
     console.log("done")
-    postToInsta(url);
+    // postToInsta(url);
 });
 
 
@@ -66,8 +66,8 @@ cronInsta.start();
 
 app.get("/", (req, res) => {
     console.log("hello")
-    // cronInsta.start();
-    postToInsta(url);
+    cronInsta.start();
+    // postToInsta(url);
     res.send("Hello from backend")
 })
 
