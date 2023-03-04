@@ -2,6 +2,11 @@ require("dotenv").config();
 const { IgApiClient } = require('instagram-private-api');
 const { get } = require('request-promise');
 const { Configuration, OpenAIApi } = require('openai');
+const CronJob = require("cron").CronJob;
+const express = require('express')
+
+const app = express()
+const port = process.env.PORT || 4000;
 
 let imageUrl;
 
@@ -11,19 +16,22 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration)
 
-const generateImage = async () => {
+// const generateImage = async () => {
 
-    const response = await openai.createImage({
-        prompt: "Spaceman",
-        n: 1,
-        size: "256x256",
-    })
-    imageUrl = response.data.data[0].url;
+//     const response = await openai.createImage({
+//         prompt: "black cat reading a book",
+//         n: 1,
+//         // size: "256x256",
+//         size: "1024x1024",
+//     })
+//     imageUrl = response.data.data[0].url;
 
-    console.log(imageUrl)
-    postToInsta(imageUrl)
-    return response.data.data[0].url
-}
+//     console.log(imageUrl)
+//     postToInsta(imageUrl)
+//     return response.data.data[0].url
+// }
+
+let url="https://steamuserimages-a.akamaihd.net/ugc/946207409564266728/20911D7B80D93D259083DE2AB505A2D85C06F14D/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false"
 
 
 const postToInsta = async (imageUrl) => {
@@ -42,5 +50,18 @@ const postToInsta = async (imageUrl) => {
     });
 }
 
-generateImage()
+// postToInsta(url)
+
+const cronInsta = new CronJob("0 35 16 * * *", async () => {
+    postToInsta();
+    // console.log("hello")
+});
+
+cronInsta.start();
+
+// generateImage()
 // postToInsta();
+
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`)
+  })
