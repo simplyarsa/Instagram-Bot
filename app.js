@@ -66,7 +66,8 @@ cronInsta.start();
 
 app.get("/", (req, res) => {
     console.log("hello")
-    cronInsta.start();
+    // cronInsta.start();
+    postToInsta(url);
     res.send("Hello from backend")
 })
 
