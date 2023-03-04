@@ -10,6 +10,8 @@ const { default: axios } = require("axios");
 const app = express()
 const port = process.env.PORT || 4000;
 
+console.log("Started")
+
 let imageUrl;
 let imgCaption;
 
@@ -71,7 +73,7 @@ const generateImage = async () => {
 }
 
 
-const cronInsta = new CronJob("0 */5 * * * *", async () => {
+const cronInsta = new CronJob("0 */2 * * * *", async () => {
     console.log("Post to insta")
     generateImage();
     postToInsta();
@@ -79,9 +81,9 @@ const cronInsta = new CronJob("0 */5 * * * *", async () => {
 
 cronInsta.start();
 
-app.get("/", (req, res) => {
-    res.send("Hello from backend")
-})
+// app.get("/", (req, res) => {
+//     res.send("Hello from backend")
+// })
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
