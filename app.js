@@ -36,9 +36,6 @@ const openai = new OpenAIApi(configuration)
 //     return response.data.data[0].url
 // }
 
-// let url = "https://steamuserimages-a.akamaihd.net/ugc/946207409564266728/20911D7B80D93D259083DE2AB505A2D85C06F14D/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false"
-
-
 const postToInsta = async () => {
     try {
         console.log("Inside function")
@@ -73,17 +70,13 @@ const generateImage = async () => {
 }
 
 
-const cronInsta = new CronJob("0 */30 * * * *", async () => {
+const cronInsta = new CronJob("0 0 9 * * *", async () => {
     console.log("Post to insta")
     generateImage();
     postToInsta();
 });
 
 cronInsta.start();
-
-// app.get("/", (req, res) => {
-//     res.send("Hello from backend")
-// })
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
