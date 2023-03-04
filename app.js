@@ -60,6 +60,11 @@ const cronInsta = new CronJob("0 */2 * * * *", async () => {
 
 cronInsta.start();
 
+app.get("/", (req, res)=>{
+    console.log("hello")
+    res.send("Hello from backend")
+})
+
 // generateImage()
 // postToInsta();
 
