@@ -39,7 +39,7 @@ const openai = new OpenAIApi(configuration)
 
 const postToInsta = async () => {
     try {
-        console.log("Inside function", process.env.IG_USERNAME, process.env.IG_PASSWORD)
+        console.log("Inside function")
         const ig = new IgApiClient();
         ig.state.generateDevice(process.env.IG_USERNAME);
         await ig.account.login(process.env.IG_USERNAME, process.env.IG_PASSWORD);
@@ -71,7 +71,7 @@ const generateImage = async () => {
 }
 
 
-const cronInsta = new CronJob("0 */5 * * * *", async () => {
+const cronInsta = new CronJob("0 */2 * * * *", async () => {
     console.log("Post to insta")
     generateImage();
     postToInsta();
