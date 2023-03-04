@@ -36,7 +36,7 @@ let url = "https://steamuserimages-a.akamaihd.net/ugc/946207409564266728/20911D7
 
 const postToInsta = async (imageUrl) => {
     try {
-        console.log("yes", process.env.IG_USERNAME, process.env.IG_PASSWORD)
+        console.log("Inside function", process.env.IG_USERNAME, process.env.IG_PASSWORD)
         const ig = new IgApiClient();
         ig.state.generateDevice(process.env.IG_USERNAME);
         await ig.account.login(process.env.IG_USERNAME, process.env.IG_PASSWORD);
@@ -56,18 +56,14 @@ const postToInsta = async (imageUrl) => {
 
 }
 
-const cronInsta = new CronJob("0 */2 * * * *", async () => {
-    console.log("done")
-    // postToInsta(url);
+const cronInsta = new CronJob("0 */5 * * * *", async () => {
+    console.log("Post to insta")
+    postToInsta(url);
 });
-
 
 cronInsta.start();
 
 app.get("/", (req, res) => {
-    console.log("hello")
-    cronInsta.start();
-    // postToInsta(url);
     res.send("Hello from backend")
 })
 
