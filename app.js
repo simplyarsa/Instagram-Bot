@@ -31,27 +31,30 @@ const openai = new OpenAIApi(configuration)
 //     return response.data.data[0].url
 // }
 
-let url="https://steamuserimages-a.akamaihd.net/ugc/946207409564266728/20911D7B80D93D259083DE2AB505A2D85C06F14D/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false"
+let url = "https://steamuserimages-a.akamaihd.net/ugc/946207409564266728/20911D7B80D93D259083DE2AB505A2D85C06F14D/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false"
 
 
 const postToInsta = async (imageUrl) => {
-    console.log("yes", process.env.IG_USERNAME, process.env.IG_PASSWORD )
-    const ig = new IgApiClient();
-    ig.state.generateDevice(process.env.IG_USERNAME);
-    await ig.account.login(process.env.IG_USERNAME, process.env.IG_PASSWORD);
+    try {
+        console.log("yes", process.env.IG_USERNAME, process.env.IG_PASSWORD)
+        const ig = new IgApiClient();
+        ig.state.generateDevice(process.env.IG_USERNAME);
+        await ig.account.login(process.env.IG_USERNAME, process.env.IG_PASSWORD);
 
-    const imageBuffer = await get({
-        url: imageUrl,
-        encoding: null
-    });
+        const imageBuffer = await get({
+            url: imageUrl,
+            encoding: null
+        });
 
-    await ig.publish.photo({
-        file: imageBuffer,
-        caption: 'Really nice photo from the internet!',
-    });
+        await ig.publish.photo({
+            file: imageBuffer,
+            caption: 'Really nice photo from the internet!',
+        });
+    } catch (error) {
+        console.log(error)
+    }
+
 }
-
-// postToInsta(url)
 
 const cronInsta = new CronJob("0 */2 * * * *", async () => {
     console.log("done")
@@ -59,8 +62,9 @@ const cronInsta = new CronJob("0 */2 * * * *", async () => {
 });
 
 
+cronInsta.start();
 
-app.get("/", (req, res)=>{
+app.get("/", (req, res) => {
     console.log("hello")
     cronInsta.start();
     res.send("Hello from backend")
@@ -71,4 +75,4 @@ app.get("/", (req, res)=>{
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
-  })
+})
