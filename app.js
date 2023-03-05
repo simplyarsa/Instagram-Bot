@@ -78,6 +78,22 @@ const cronInsta = new CronJob("0 0 9 * * *", async () => {
 
 cronInsta.start();
 
+const ping= async () => {
+    try {
+      const res = await axios.get("https://instagram-bot-4p8o.onrender.com")
+    } catch (err) {
+      console.log(err)
+    }
+}
+
+setInterval(ping, 840000)
+
+app.get("/", (req, res) => {
+    console.log("Pinged")
+    res.send("Hello this is backend");
+})
+
+
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 })
