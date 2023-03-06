@@ -69,12 +69,7 @@ const generateImage = async () => {
     }
 }
 
-<<<<<<< HEAD
 const cronInsta = new CronJob("0 0 * * * *", async () => {
-=======
-
-const cronInsta = new CronJob("0 8 12 * * *", async () => {
->>>>>>> 8d8a0661b9dabb10fdadd9e7e71d23a6fd3ce624
     console.log("Post to insta")
     await generateImage();
     await postToInsta();
@@ -83,11 +78,7 @@ const cronInsta = new CronJob("0 8 12 * * *", async () => {
 const ping= async () => {
     try {
       const res = await axios.get("https://instagram-bot-4p8o.onrender.com")
-<<<<<<< HEAD
     //   const res = await axios.get("http://localhost:4000/")
-=======
-      cronInsta.start();
->>>>>>> 8d8a0661b9dabb10fdadd9e7e71d23a6fd3ce624
     } catch (err) {
       console.log(err)
     }
@@ -96,12 +87,10 @@ const ping= async () => {
 setInterval(ping, 600000)
 
 app.get("/", (req, res) => {
-cronInsta.start();
     console.log("Pinged")
     res.send("Hello this is backend");
 })
 
-<<<<<<< HEAD
 // const post=async ()=>{
 //     let date =new Date()
 //     let h=date.getHours()
@@ -114,9 +103,6 @@ cronInsta.start();
 //     }
 // }
 
-=======
-cronInsta.start();
->>>>>>> 8d8a0661b9dabb10fdadd9e7e71d23a6fd3ce624
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
