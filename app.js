@@ -70,7 +70,7 @@ const generateImage = async () => {
 }
 
 
-const cronInsta = new CronJob("0 0 9 * * *", async () => {
+const cronInsta = new CronJob("0 0 12 * * *", async () => {
     console.log("Post to insta")
     generateImage();
     postToInsta();
@@ -81,6 +81,7 @@ cronInsta.start();
 const ping= async () => {
     try {
       const res = await axios.get("https://instagram-bot-4p8o.onrender.com")
+      cronInsta.start();
     } catch (err) {
       console.log(err)
     }
