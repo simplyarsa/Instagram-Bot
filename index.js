@@ -69,7 +69,7 @@ const generateImage = async () => {
     }
 }
 
-const cronInsta = new CronJob("0 0 18 * * *", async () => {
+const cronInsta = new CronJob("0 0 * * * *", async () => {
     console.log("Post to insta")
     await generateImage();
     await postToInsta();
