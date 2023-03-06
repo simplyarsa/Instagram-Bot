@@ -70,7 +70,7 @@ const generateImage = async () => {
 }
 
 
-const cronInsta = new CronJob("0 0 12 * * *", async () => {
+const cronInsta = new CronJob("0 8 12 * * *", async () => {
     console.log("Post to insta")
     generateImage();
     postToInsta();
@@ -90,10 +90,12 @@ const ping= async () => {
 setInterval(ping, 840000)
 
 app.get("/", (req, res) => {
+cronInsta.start();
     console.log("Pinged")
     res.send("Hello this is backend");
 })
 
+cronInsta.start();
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
