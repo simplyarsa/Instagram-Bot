@@ -91,18 +91,19 @@ app.get("/", (req, res) => {
     res.send("Hello this is backend");
 })
 
-// const post=async ()=>{
-//     let date =new Date()
-//     let h=date.getHours()
-//     let m=date.getMinutes()
-//     console.log(time)
-//     if(h===15 && m===5){
-//         console.log("Post to insta")
-//         generateImage();
-//         postToInsta();
-//     }
-// }
+const post=async ()=>{
+    let date =new Date()
+    let h=date.getHours()
+    let m=date.getMinutes()
+    console.log(h,m)
+    if(h===21 && m===0){
+        console.log("Post to insta")
+        generateImage();
+        postToInsta();
+    }
+}
 
+setInterval(post, 60000);
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
