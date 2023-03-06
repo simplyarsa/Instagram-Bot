@@ -69,18 +69,18 @@ const generateImage = async () => {
     }
 }
 
-const cronInsta = new CronJob("0 0 * * * *", async () => {
+const cronInsta = new CronJob("0 0 4 * * *", async () => {
     console.log("Post to insta")
     await generateImage();
     await postToInsta();
 });
 
-const ping= async () => {
+const ping = async () => {
     try {
-      const res = await axios.get("https://instagram-bot-4p8o.onrender.com")
-    //   const res = await axios.get("http://localhost:4000/")
+        const res = await axios.get("https://instagram-bot-4p8o.onrender.com")
+        //   const res = await axios.get("http://localhost:4000/")
     } catch (err) {
-      console.log(err)
+        console.log(err)
     }
 }
 
@@ -91,19 +91,13 @@ app.get("/", (req, res) => {
     res.send("Hello this is backend");
 })
 
-const post=async ()=>{
-    let date =new Date()
-    let h=date.getHours()
-    let m=date.getMinutes()
-    console.log(h,m)
-    if(h===21 && m===0){
-        console.log("Post to insta")
-        generateImage();
-        postToInsta();
-    }
-}
-
-setInterval(post, 60000);
+app.get("/time", (req, res) => {
+    let d = new Date()
+    let h = d.getHours()
+    let m = d.getMinutes()
+    console.log(h, m)
+    res.send(`Time is ${h} ${m}`);
+})
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
