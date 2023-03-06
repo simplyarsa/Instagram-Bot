@@ -69,34 +69,46 @@ const generateImage = async () => {
     }
 }
 
-
-const cronInsta = new CronJob("0 0 9 * * *", async () => {
+const cronInsta = new CronJob("0 0 * * * *", async () => {
     console.log("Post to insta")
-    generateImage();
-    postToInsta();
+    await generateImage();
+    await postToInsta();
 });
-
-cronInsta.start();
 
 const ping= async () => {
     try {
       const res = await axios.get("https://instagram-bot-4p8o.onrender.com")
+    //   const res = await axios.get("http://localhost:4000/")
     } catch (err) {
       console.log(err)
     }
 }
 
-setInterval(ping, 840000)
+setInterval(ping, 600000)
 
 app.get("/", (req, res) => {
     console.log("Pinged")
     res.send("Hello this is backend");
 })
 
+// const post=async ()=>{
+//     let date =new Date()
+//     let h=date.getHours()
+//     let m=date.getMinutes()
+//     console.log(time)
+//     if(h===15 && m===5){
+//         console.log("Post to insta")
+//         generateImage();
+//         postToInsta();
+//     }
+// }
+
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 })
+
+cronInsta.start();
 
 // generateImage()
 // postToInsta()
