@@ -53,6 +53,8 @@ const postToInsta = async () => {
             caption: imgCaption,
         });
     } catch (error) {
+        generateImage2()
+        postToInsta()
         console.log(error)
     }
 }
@@ -61,15 +63,32 @@ const generateImage = async () => {
     let nasaUrl = `https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`
     try {
         const res = await axios.get(nasaUrl)
-        imageUrl = res.data.url
-        imgCaption = res.data.title
-        console.log(imageUrl, imgCaption)
+        imageUrl = res.data.hdurl
+        // imgCaption = `${res.data.title} \n\n ${res.data.explanation}`
+        imgCaption = `${res.data.title} \t${res.data.date} \n\n${res.data.explanation}`
+        console.log(imageUrl)
     } catch (err) {
         console.log(err)
     }
 }
 
-const cronInsta = new CronJob("0 0 4 * * *", async () => {
+const generateImage2 = async () => {
+    let nasaUrl = `https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}&count=3`
+    try {
+        const res = await axios.get(nasaUrl)
+        imageUrl = res.data[0].hdurl
+        imgCaption = `${res.data[0].title} \t${res.data[0].date} \n\n${res.data[0].explanation}`
+        console.log(imageUrl)
+    } catch (err) {
+        const res = await axios.get(nasaUrl)
+        imageUrl = res.data[1].hdurl
+        imgCaption = `${res.data[1].title} \t${res.data[1].date} \n\n${res.data[1].explanation}`
+        console.log(imageUrl)
+        console.log(err)
+    }
+}
+
+const cronInsta = new CronJob("0 30 3 * * *", async () => {
     console.log("Post to insta")
     await generateImage();
     await postToInsta();
