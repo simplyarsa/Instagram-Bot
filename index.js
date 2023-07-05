@@ -88,7 +88,7 @@ const generateImage2 = async () => {
     }
 }
 
-const cronInsta = new CronJob("0 30 3 * * *", async () => {
+const cronInsta = new CronJob("0 0 14 * * *", async () => {
     console.log("Post to insta")
     await generateImage();
     await postToInsta();
@@ -107,7 +107,7 @@ setInterval(ping, 600000)
 
 app.get("/", (req, res) => {
     console.log("Pinged")
-    res.send("Hello this is backend");
+    res.send("google-site-verification: google6832c48cf04c3941.html");
 })
 
 app.get("/time", (req, res) => {
@@ -124,5 +124,11 @@ app.listen(port, () => {
 
 cronInsta.start();
 
-// generateImage()
-// postToInsta()
+const run =async()=>{
+   await generateImage()
+    await postToInsta()
+}
+
+run()
+
+
